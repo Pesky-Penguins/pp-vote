@@ -3,18 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "next dev",
+    "export": "next export",
+    "lint": "next lint -- --fix",
+    "prettier": "npx prettier --write pages components",
+    "serve": "next start",
+    "start": "next dev"
   },
   "dependencies": {
+    "daisyui": "^2.15.0",
+    "fathom-client": "^3.4.1",
     "next": "12.1.6",
     "react": "18.1.0",
-    "react-dom": "18.1.0"
+    "react-dom": "18.1.0",
+    "tailwindcss": "^3.0.24"
   },
   "devDependencies": {
     "eslint": "8.16.0",
-    "eslint-config-next": "12.1.6"
+    "eslint-config-next": "12.1.6",
+    "postcss": "^8.4.14",
+    "sass": "^1.52.1"
   }
 }

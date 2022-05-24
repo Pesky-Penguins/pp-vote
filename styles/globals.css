@@ -1,16 +1,50 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
+/* ./styles/globals.css */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
-a {
-  color: inherit;
-  text-decoration: none;
+/* Custom strikethru logic */
+.cross {
+    position: relative;
+    display: inline-block;
 }
-
-* {
-  box-sizing: border-box;
+.cross::before, .cross::after {
+    content: '';
+    width: 100%;
+    position: absolute;
+    right: 0;
+    top: 50%;
 }
+.cross::before {
+    border-bottom: 2px solid red;
+    -webkit-transform: skewY(-20deg);
+    transform: skewY(-20deg);
+}
+.cross::after {
+    border-bottom: 2px solid red;
+    -webkit-transform: skewY(20deg);
+    transform: skewY(20deg);
+}
+.strike {
+    position: relative;
+    display: inline-block;
+}
+.strike::before, .strike::after {
+    content: '';
+    width: 100%;
+    position: absolute;
+    right: 0;
+    top: 50%;
+}
+.strike::before {
+    border-bottom: 2px solid #C33;
+    -webkit-transform: translateY(-1px);
+    transform: translateY(-1px);
+}
+/*
+.strike::after {
+    border-bottom: 2px solid red;
+    -webkit-transform: skewY(20deg);
+    transform: skewY(20deg);
+}
+*/
