@@ -12,6 +12,11 @@
     "start": "next dev"
   },
   "dependencies": {
+    "@solana/wallet-adapter-base": "^0.9.5",
+    "@solana/wallet-adapter-react": "^0.15.5",
+    "@solana/wallet-adapter-react-ui": "^0.9.7",
+    "@solana/wallet-adapter-wallets": "^0.16.1",
+    "@solana/web3.js": "^1.43.1",
     "daisyui": "^2.15.0",
     "fathom-client": "^3.4.1",
     "next": "12.1.6",
