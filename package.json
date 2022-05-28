@@ -7,21 +7,24 @@
     "dev": "next dev",
     "export": "next export",
     "lint": "next lint -- --fix",
-    "prettier": "npx prettier --write pages components",
+    "prettier": "npx prettier --write pages components .eslintrc.json",
     "serve": "next start",
     "start": "next dev"
   },
   "dependencies": {
+    "@metaplex-foundation/mpl-token-metadata": "^2.1.2",
     "@solana/wallet-adapter-base": "^0.9.5",
     "@solana/wallet-adapter-react": "^0.15.5",
     "@solana/wallet-adapter-react-ui": "^0.9.7",
     "@solana/wallet-adapter-wallets": "^0.16.1",
     "@solana/web3.js": "^1.43.1",
+    "bn.js": "^5.2.1",
     "daisyui": "^2.15.0",
     "fathom-client": "^3.4.1",
     "next": "12.1.6",
     "react": "18.1.0",
     "react-dom": "18.1.0",
+    "recoil": "^0.7.3-alpha.2",
     "tailwindcss": "^3.0.24"
   },
   "devDependencies": {

@@ -1,6 +1,14 @@
 {
   "extends": "next/core-web-vitals",
+  "plugins": ["react-hooks"],
   "rules": {
-    "quotes": [2, "single"]
+    "quotes": [2, "single"],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": [
+      "warn",
+      {
+        "additionalHooks": "(useRecoilCallback|useRecoilTransaction_UNSTABLE)"
+      }
+    ]
   }
 }
