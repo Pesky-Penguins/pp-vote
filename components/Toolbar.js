@@ -1,11 +1,10 @@
 import { useMemo } from 'react';
-import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { getPubkeyShorthand } from '../lib/blockchain.js';
 
 export default function Toolbar() {
-  const { connection } = useConnection();
-  const { publicKey, sendTransaction } = useWallet();
+  const { publicKey } = useWallet();
 
   const pubkeyShorthand = useMemo(() => {
     const [start, end] = getPubkeyShorthand(publicKey);
@@ -15,8 +14,6 @@ export default function Toolbar() {
       </span>
     );
   }, [publicKey]);
-
-  console.log('my shorthand is', pubkeyShorthand);
 
   return (
     <div className="flex py-2 px-4 justify-between items-center">
