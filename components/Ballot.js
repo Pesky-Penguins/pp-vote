@@ -12,7 +12,7 @@ import Base58 from 'bs58';
 import { toast } from 'react-toastify';
 
 import { useRecoilValue } from 'recoil';
-import { nftsState, voteDataState, votesState } from '../lib/state.js';
+import { nftsState, votesState, myVotesState, resultsState } from '../lib/state.js';
 
 import { toU64Le } from '../lib/blockchain.js';
 import {
@@ -23,9 +23,9 @@ import {
 import { getNFTsForWallet } from '../lib/NFTs.js';
 
 import LoadingSpinner from './LoadingSpinner.js';
+import ResultsProgress, { ALIVE_PENGUINS } from './ResultsProgress.js';
 
-const ALIVE_PENGUINS = 8447;
-const BATCH_SIZE = 10;
+const BATCH_SIZE = 15;
 
 const MetaplexMetadataProgramAddressPubKey = new PublicKey(METAPLEX_METADATA_PROGRAM_ADDRESS);
 const VoteProgramAddressPubKey = new PublicKey(VOTE_PROGRAM_ADDRESS);
@@ -36,7 +36,8 @@ export default function Ballot({ id, ballot }) {
   const [isVotingActionInProgress, setVotingActionInProgress] = useState(false);
   const nfts = useRecoilValue(nftsState);
   const votes = useRecoilValue(votesState);
-  const voteData = useRecoilValue(voteDataState);
+  const myVotes = useRecoilValue(myVotesState);
+  const results = useRecoilValue(resultsState);
 
   const { publicKey, sendTransaction, signAllTransactions } = useWallet();
   const { connection } = useConnection();
@@ -52,7 +53,6 @@ export default function Ballot({ id, ballot }) {
       const batches = chunk(tokenIds, BATCH_SIZE);
       for (let i = 0; i < batches.length; i++) {
         const batch = batches[i];
-        console.log('batch', i, 'is:', batch);
         toast.info(`Submitting tx ${i + 1} of ${batches.length}`);
         await castVote(batch, voteIdString, vote);
       }
@@ -203,11 +203,14 @@ export default function Ballot({ id, ballot }) {
 
   return (
     <div className="card w-full bg-neutral text-neutral-content">
-      <div className="card-body items-center text-center">
-        <h2 className="card-title">{ballot}</h2>
-        <p className="p-4 font-mono">
-          Penguins reporting: {((votes.length / ALIVE_PENGUINS) * 100).toFixed(1)}%
-        </p>
+      <div className="card-body items-center text-center p-4 md:p-6">
+        <h2 className="card-title font-semibold text-2xl">{ballot}</h2>
+        <ResultsProgress
+          className="flex flex-col items-center w-full my-4"
+          proposalId={id}
+          votes={votes}
+          results={results}
+        />
 
         {isVotingActionInProgress && <LoadingSpinner />}
         {!isVotingActionInProgress && publicKey && nfts?.length > 0 && (
@@ -227,9 +230,17 @@ export default function Ballot({ id, ballot }) {
           </div>
         )}
         {!isVotingActionInProgress && publicKey && nfts?.length < 1 && (
-          <p className="text-sm">[ You cannot vote without Pesky Penguins in this wallet ]</p>
+          <p className="font-light text-2xl">
+            [ You cannot vote without Pesky Penguins in this wallet ]
+          </p>
         )}
-        {!publicKey && <p className="font-bold">[ Connect your wallet to vote ]</p>}
+        {!publicKey && <p className="font-light text-2xl">[ Connect your wallet to vote ]</p>}
+
+        <p className="mt-4 text-xl font-light">
+          <span className="">Total Votes:</span> <span className="font-mono">{votes.length}</span> (
+          <span className="font-mono">{((votes.length / ALIVE_PENGUINS) * 100).toFixed(1)}</span>%
+          of Penguins)
+        </p>
       </div>
     </div>
   );
