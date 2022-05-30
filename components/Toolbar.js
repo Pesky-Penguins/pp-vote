@@ -16,8 +16,8 @@ export default function Toolbar() {
   }, [publicKey]);
 
   return (
-    <div className="flex py-2 px-4 justify-between items-center">
-      <p className="pt-3 font-lucky text-2xl md:text-3xl">Pesky Vote</p>
+    <div className="flex py-2 px-4 w-full justify-between items-center">
+      <p className="pt-3 font-lucky text-3xl md:text-5xl">Pesky Vote</p>
       <div>
         {publicKey ? (
           <WalletDisconnectButton>

@@ -9,7 +9,7 @@ import {
   NFT_CREATOR_ADDRESS,
 } from '../lib/constants.js';
 import { nftsState } from '../lib/state.js';
-import { getNFTsForWallet, getNFTDataForMint } from '../lib/NFTs.js';
+import { getNFTsForWallet } from '../lib/NFTs.js';
 
 export default function PenguinProvider({ children }) {
   const { publicKey } = useWallet();
@@ -35,10 +35,12 @@ export default function PenguinProvider({ children }) {
     retrieve();
   }, [connection, publicKey]);
 
+  /*
   // -- Debugging; feel free to remove
   useEffect(() => {
     console.log('my nfts are:', nfts);
   }, [nfts]);
+  */
 
   return children;
 }

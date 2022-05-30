@@ -10,7 +10,12 @@ import {
   NFT_CREATOR_ADDRESS,
 } from '../lib/constants.js';
 import { votesState, proposalsState, nftsState, voteDataState } from '../lib/state.js';
-import { getNFTsForWallet, getNFTDataForMint } from '../lib/NFTs.js';
+import { getMetadataForMint } from '../lib/NFTs.js';
+
+// Keep proposal data in public/proposals/
+const VALID_PROPOSALS = [
+  0, // public/proposals/0.json
+];
 
 const VoteProgramAddressPubKey = new PublicKey(VOTE_PROGRAM_ADDRESS);
 
@@ -18,16 +23,15 @@ export default function VoteProvider({ children }) {
   const { publicKey } = useWallet();
   const { connection } = useConnection();
 
-  const [votes, setVotes] = useRecoilState(votesState);
   const [proposals, setProposals] = useRecoilState(proposalsState);
+  const [votes, setVotes] = useRecoilState(votesState);
   const [voteData, setVoteData] = useRecoilState(voteDataState);
-  const nfts = useRecoilValue(nftsState);
 
   useEffect(() => {
-    console.log(`Fetching votes for ${NFT_CREATOR_ADDRESS}...`);
+    // console.log(`Fetching votes for ${NFT_CREATOR_ADDRESS}...`);
 
     async function retrieve() {
-      const proposalAccounts = await connection.getProgramAccounts(VoteProgramAddressPubKey, {
+      const programAccounts = await connection.getProgramAccounts(VoteProgramAddressPubKey, {
         filters: [
           { memcmp: { bytes: NFT_CREATOR_ADDRESS, offset: 116 } },
           {
@@ -36,11 +40,14 @@ export default function VoteProvider({ children }) {
         ],
       });
 
-      console.log(`Got ${proposalAccounts.length} proposalAccounts:`);
+      const proposalIds = programAccounts
+        .map((programAccount) =>
+          parseInt(new BN(programAccount.account.data.slice(100, 108), 10, 'le').toString(), 10)
+        )
+        .filter((pid) => VALID_PROPOSALS.includes(pid));
 
-      const proposalsRetrieval = proposalAccounts.map(async (programAccount) => {
-        const proposalId = new BN(programAccount.account.data.slice(100, 108), 10, 'le').toString();
-        const url = `/proposals/${proposalId}.json`;
+      const proposalsRetrieval = proposalIds.map(async (pid) => {
+        const url = `/proposals/${pid}.json`;
         let proposalInfo = null;
         try {
           const proposalInfoRequest = await fetch(url);
@@ -49,7 +56,7 @@ export default function VoteProvider({ children }) {
 
         return {
           url,
-          id: proposalId,
+          id: pid,
           info: proposalInfo,
         };
       });
@@ -96,8 +103,8 @@ export default function VoteProvider({ children }) {
     async function retrieve() {
       const nftData = await Promise.all(
         votes.map(async (vote) => {
-          const data = await getNFTDataForMint(connection, vote.mint);
-          return { mint: vote.mint, data };
+          const data = await getMetadataForMint(vote.mint);
+          return { mint: vote.mint, data, vote };
         })
       );
       // console.log('nftData', nftData);

@@ -38,7 +38,7 @@ const config = {
   plugins: [require('daisyui')],
   daisyui: {
     styled: true,
-    themes: ['light', 'cupcake'],
+    themes: false,
   },
 };
 

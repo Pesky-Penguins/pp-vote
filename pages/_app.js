@@ -3,10 +3,13 @@ import { RecoilRoot } from 'recoil';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import * as Fathom from 'fathom-client';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import VoteProvider from '../components/VoteProvider.js';
 import SolanaProvider from '../components/SolanaProvider.js';
 import PenguinProvider from '../components/PenguinProvider.js';
+
 import '../styles/globals.css';
 
 require('@solana/wallet-adapter-react-ui/styles.css');
@@ -33,6 +36,8 @@ export default function PPVote({ Component, pageProps }) {
       <Head>
         <title>Pesky Vote</title>
       </Head>
+
+      <ToastContainer position="top-center" />
 
       <SolanaProvider>
         <RecoilRoot>
