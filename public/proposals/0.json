@@ -1,11 +1,16 @@
 {
   "title": "Funding the DAO",
   "endDate": "2022-06-09T00:00:00Z",
-  "ballot": "Do you support the DAO receiving 1% of every aftermarket sale, increasing royalties from 5% to 6%?",
+  "ballot": "Do you support the DAO receiving 1% of aftermarket sales, increasing royalties from 5% to 6%?",
   "description": [
     "The Pesky Penguins DAO (NootDAO) performs many duties crucial to the success of the Pesky Penguins project. In addition to moderating the Discord, NootDAO has been responsible for securing partnerships and sourcing the alpha and mints that have added tremendous value to Pesky Penguins holders for the past eight months.",
     "All moderators, alpha hunters, and members of DAO Leadership have been working on a volunteer basis. The Pesky Penguins dev team believes that the functions performed by the DAO are essential for the continued success of the project, and wish to compensate the DAO for their time and effort.",
     "The dev team proposes increasing aftermarket royalties for Pesky Penguins sales from 5% to 6%, and sending 1% of every sale to NootDAO's multi-sig wallet, where these funds will be used to ensure the ongoing success of the project."
+  ],
+  "options": [
+    { "text": "Reject", "classes": "btn-error bg-error" },
+    { "text": "Abstain", "classes": "btn-active btn-primary bg-primary" },
+    { "text": "Approve", "classes": "btn-success bg-success" }
   ],
   "active": true
 }

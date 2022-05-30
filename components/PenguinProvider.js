@@ -35,12 +35,5 @@ export default function PenguinProvider({ children }) {
     retrieve();
   }, [connection, publicKey]);
 
-  /*
-  // -- Debugging; feel free to remove
-  useEffect(() => {
-    console.log('my nfts are:', nfts);
-  }, [nfts]);
-  */
-
   return children;
 }

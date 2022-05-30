@@ -9,7 +9,7 @@ import CountdownTimer from './CountdownTimer.js';
 export default function Proposal({ id, info }) {
   const votes = useRecoilValue(votesState);
   const voteData = useRecoilValue(voteDataState);
-  const { title, active, ballot, description, endDate } = info;
+  const { title, active, ballot, description, endDate, options } = info;
 
   if (!active) {
     return null;
@@ -22,7 +22,7 @@ export default function Proposal({ id, info }) {
         <CountdownTimer endDate={endDate} />
       </div>
       <div className="flex w-full items-center justify-center text-center my-4">
-        <Ballot id={id} ballot={ballot} />
+        <Ballot id={id} ballot={ballot} options={options} />
       </div>
       <div>
         {description.map((d) => (

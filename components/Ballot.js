@@ -12,7 +12,13 @@ import Base58 from 'bs58';
 import { toast } from 'react-toastify';
 
 import { useRecoilValue } from 'recoil';
-import { nftsState, votesState, myVotesState, resultsState } from '../lib/state.js';
+import {
+  nftsState,
+  votesState,
+  myVotesState,
+  resultsState,
+  remainingVotesState,
+} from '../lib/state.js';
 
 import { toU64Le } from '../lib/blockchain.js';
 import {
@@ -23,6 +29,7 @@ import {
 import { getNFTsForWallet } from '../lib/NFTs.js';
 
 import LoadingSpinner from './LoadingSpinner.js';
+import PersonalVoteStats from './PersonalVoteStats.js';
 import ResultsProgress, { ALIVE_PENGUINS } from './ResultsProgress.js';
 
 const BATCH_SIZE = 15;
@@ -31,18 +38,22 @@ const MetaplexMetadataProgramAddressPubKey = new PublicKey(METAPLEX_METADATA_PRO
 const VoteProgramAddressPubKey = new PublicKey(VOTE_PROGRAM_ADDRESS);
 const CreatorAddressPublicKey = new PublicKey(NFT_CREATOR_ADDRESS);
 
-export default function Ballot({ id, ballot }) {
+export default function Ballot({ id, ballot, options }) {
   const [isLoadingVotes, setIsLoadingVotes] = useState(false);
   const [isVotingActionInProgress, setVotingActionInProgress] = useState(false);
   const nfts = useRecoilValue(nftsState);
   const votes = useRecoilValue(votesState);
   const myVotes = useRecoilValue(myVotesState);
+  const remainingVotes = useRecoilValue(remainingVotesState);
   const results = useRecoilValue(resultsState);
 
   const { publicKey, sendTransaction, signAllTransactions } = useWallet();
   const { connection } = useConnection();
 
-  const tokenIds = useMemo(() => nfts.map((nft) => new PublicKey(nft.tokenId)), [nfts]);
+  const tokenIds = useMemo(
+    () => remainingVotes[id]?.map((nft) => new PublicKey(nft)) || [],
+    [id, remainingVotes]
+  );
 
   const castBatchedVotes = useCallback(
     async (voteIdString, vote) => {
@@ -198,35 +209,46 @@ export default function Ballot({ id, ballot }) {
     [connection, publicKey]
   );
 
-  // TODO:
-  const percentInFavor = useMemo(() => {}, [votes]);
-
   return (
     <div className="card w-full bg-neutral text-neutral-content">
       <div className="card-body items-center text-center p-4 md:p-6">
         <h2 className="card-title font-semibold text-2xl">{ballot}</h2>
+        <p className="mt-4 text-xl font-light">
+          <span className="font-mono">{votes.length}</span> <span className="">Votes</span> (
+          <span className="font-mono">{((votes.length / ALIVE_PENGUINS) * 100).toFixed(1)}</span>%
+          of Penguins)
+        </p>
         <ResultsProgress
-          className="flex flex-col items-center w-full my-4"
+          className="flex flex-col items-center w-full my-4 mb-2"
           proposalId={id}
           votes={votes}
           results={results}
+          options={options}
         />
 
         {isVotingActionInProgress && <LoadingSpinner />}
-        {!isVotingActionInProgress && publicKey && nfts?.length > 0 && (
+        {!isVotingActionInProgress && publicKey && remainingVotes[id]?.length > 0 && (
           <div className="flex flex-col w-full">
-            <div className="card-actions justify-around">
-              <button className="btn btn-error" onClick={() => castBatchedVotes(id, 0)}>
-                ✖️ Reject
-              </button>
-              <button className="btn btn-success" onClick={() => castBatchedVotes(id, 1)}>
-                Accept ✔️
-              </button>
+            <div className="card-actions flex-col-reverse md:flex-row items-center justify-center justify-between px-2">
+              {options.map((option, val) => {
+                const { text, classes } = option;
+                return (
+                  <button
+                    key={text}
+                    className={`btn ${classes} w-72 mt-4 md:w-auto md:mt-0`}
+                    onClick={() => castBatchedVotes(id, val)}
+                  >
+                    {text}
+                  </button>
+                );
+              })}
             </div>
-            <p className="mt-6 font-italic">
-              This wallet will cast <span className="font-bold">{nfts.length} ballots</span>: one
-              for each Pesky Penguin.
-            </p>
+            <PersonalVoteStats
+              className="mt-4"
+              id={id}
+              myVotes={myVotes}
+              remainingVotes={remainingVotes}
+            />
           </div>
         )}
         {!isVotingActionInProgress && publicKey && nfts?.length < 1 && (
@@ -234,13 +256,7 @@ export default function Ballot({ id, ballot }) {
             [ You cannot vote without Pesky Penguins in this wallet ]
           </p>
         )}
-        {!publicKey && <p className="font-light text-2xl">[ Connect your wallet to vote ]</p>}
-
-        <p className="mt-4 text-xl font-light">
-          <span className="">Total Votes:</span> <span className="font-mono">{votes.length}</span> (
-          <span className="font-mono">{((votes.length / ALIVE_PENGUINS) * 100).toFixed(1)}</span>%
-          of Penguins)
-        </p>
+        {!publicKey && <p className="font-light text-2xl">Connect your wallet to vote</p>}
       </div>
     </div>
   );
