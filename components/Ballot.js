@@ -279,6 +279,15 @@ export default function Ballot({ id, ballot, options, endDate }) {
         {!hasExpired && !publicKey && (
           <p className="font-light text-2xl">Connect your wallet to vote</p>
         )}
+        {nfts?.length > 0 && remainingVotes[id]?.length === 0 && (
+          <p className="font-light text-2xl">
+            {nfts?.length === 1
+              ? 'Your penguin has voted!'
+              : nfts?.length === 2
+              ? 'Both of your penguins have voted!'
+              : `All ${nfts?.length} of your penguins have voted!`}
+          </p>
+        )}
       </div>
     </div>
   );
