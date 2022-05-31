@@ -34,6 +34,11 @@ export default function Home() {
         {proposals.map((p) => (
           <Proposal key={p.id} id={p.id} info={p.info} />
         ))}
+        {proposals?.length > 0 && proposals.every((p) => !p?.info?.active) && (
+          <div className="flex w-full items-center justify-center mb-4">
+            <h2 className="text-3xl font-thin">No active proposals at this time.</h2>
+          </div>
+        )}
       </div>
       <div className="my-2 p-2 max-w-screen-md">
         <div className="card md:card-side bg-base-200 shadow-lg p-0 md:px-4">
