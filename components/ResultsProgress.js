@@ -5,9 +5,18 @@ export const ALIVE_PENGUINS = 8447; // TODO move back to BAllot
 
 export default function ResultsProgress({ className, proposalId, votes, results, options }) {
   const counts = useMemo(
-    () => options.map((_, i) => results[proposalId][i] || 0),
+    () =>
+      options.map((_, i) => {
+        try {
+          return results[proposalId][i] || 0;
+        } catch (err) {}
+
+        return 0;
+      }),
     [results, proposalId, options]
   );
+
+  console.log('proposalId', proposalId, 'counts', counts, 'results', results, 'options', options);
 
   return (
     <div className={className}>
