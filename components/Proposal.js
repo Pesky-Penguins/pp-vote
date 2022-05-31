@@ -22,7 +22,7 @@ export default function Proposal({ id, info }) {
         <CountdownTimer endDate={endDate} />
       </div>
       <div className="flex w-full items-center justify-center text-center my-4">
-        <Ballot id={id} ballot={ballot} options={options} />
+        <Ballot id={id} ballot={ballot} options={options} endDate={endDate} />
       </div>
       <div>
         {description.map((d) => (

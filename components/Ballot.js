@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { chunk } from 'lodash-es';
+import { parseISO, isPast } from 'date-fns';
+import { toast } from 'react-toastify';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import {
   PublicKey,
@@ -9,15 +11,16 @@ import {
 } from '@solana/web3.js';
 import BN from 'bn.js';
 import Base58 from 'bs58';
-import { toast } from 'react-toastify';
 
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import {
-  nftsState,
-  votesState,
+  isLoadingNftsState,
   myVotesState,
-  resultsState,
+  needsRefreshState,
+  nftsState,
   remainingVotesState,
+  resultsState,
+  votesState,
 } from '../lib/state.js';
 
 import { toU64Le } from '../lib/blockchain.js';
@@ -38,22 +41,30 @@ const MetaplexMetadataProgramAddressPubKey = new PublicKey(METAPLEX_METADATA_PRO
 const VoteProgramAddressPubKey = new PublicKey(VOTE_PROGRAM_ADDRESS);
 const CreatorAddressPublicKey = new PublicKey(NFT_CREATOR_ADDRESS);
 
-export default function Ballot({ id, ballot, options }) {
+export default function Ballot({ id, ballot, options, endDate }) {
   const [isLoadingVotes, setIsLoadingVotes] = useState(false);
   const [isVotingActionInProgress, setVotingActionInProgress] = useState(false);
+  const [needsRefresh, setNeedsRefresh] = useRecoilState(needsRefreshState);
   const nfts = useRecoilValue(nftsState);
   const votes = useRecoilValue(votesState);
   const myVotes = useRecoilValue(myVotesState);
   const remainingVotes = useRecoilValue(remainingVotesState);
   const results = useRecoilValue(resultsState);
+  const isLoadingNfts = useRecoilValue(isLoadingNftsState);
 
   const { publicKey, sendTransaction, signAllTransactions } = useWallet();
   const { connection } = useConnection();
+
+  const hasExpired = useMemo(() => isPast(parseISO(endDate)), [endDate]);
 
   const tokenIds = useMemo(
     () => remainingVotes[id]?.map((nft) => new PublicKey(nft)) || [],
     [id, remainingVotes]
   );
+
+  const toggleRefresh = useCallback(() => {
+    setNeedsRefresh((old) => old + 1);
+  }, [setNeedsRefresh]);
 
   const castBatchedVotes = useCallback(
     async (voteIdString, vote) => {
@@ -66,6 +77,7 @@ export default function Ballot({ id, ballot, options }) {
         const batch = batches[i];
         toast.info(`Submitting tx ${i + 1} of ${batches.length}`);
         await castVote(batch, voteIdString, vote);
+        toggleRefresh();
       }
       toast.success('Voting complete! 🎉');
     },
@@ -227,7 +239,7 @@ export default function Ballot({ id, ballot, options }) {
         />
 
         {isVotingActionInProgress && <LoadingSpinner />}
-        {!isVotingActionInProgress && publicKey && remainingVotes[id]?.length > 0 && (
+        {!hasExpired && !isVotingActionInProgress && publicKey && remainingVotes[id]?.length > 0 && (
           <div className="flex flex-col w-full">
             <div className="card-actions flex-col-reverse md:flex-row items-center justify-center justify-between px-2">
               {options.map((option, val) => {
@@ -251,12 +263,22 @@ export default function Ballot({ id, ballot, options }) {
             />
           </div>
         )}
-        {!isVotingActionInProgress && publicKey && nfts?.length < 1 && (
-          <p className="font-light text-2xl">
-            [ You cannot vote without Pesky Penguins in this wallet ]
-          </p>
+        {isLoadingNfts && !hasExpired && (
+          <div className="flex">
+            <p className="font-light text-2xl mr-2">Loading Penguins...</p>
+            <LoadingSpinner />
+          </div>
         )}
-        {!publicKey && <p className="font-light text-2xl">Connect your wallet to vote</p>}
+        {!isLoadingNfts &&
+          !hasExpired &&
+          !isVotingActionInProgress &&
+          publicKey &&
+          nfts?.length < 1 && (
+            <p className="font-light text-2xl">[ Pesky Penguins are required to vote ]</p>
+          )}
+        {!hasExpired && !publicKey && (
+          <p className="font-light text-2xl">Connect your wallet to vote</p>
+        )}
       </div>
     </div>
   );

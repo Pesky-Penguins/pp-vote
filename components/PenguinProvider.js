@@ -8,7 +8,7 @@ import {
   VOTE_PROGRAM_ADDRESS,
   NFT_CREATOR_ADDRESS,
 } from '../lib/constants.js';
-import { nftsState } from '../lib/state.js';
+import { nftsState, isLoadingNftsState } from '../lib/state.js';
 import { getNFTsForWallet } from '../lib/NFTs.js';
 
 export default function PenguinProvider({ children }) {
@@ -16,6 +16,7 @@ export default function PenguinProvider({ children }) {
   const { connection } = useConnection();
 
   const [nfts, setNfts] = useRecoilState(nftsState);
+  const [isLoading, setIsLoading] = useRecoilState(isLoadingNftsState);
 
   useEffect(() => {
     if (!publicKey) {
@@ -23,6 +24,7 @@ export default function PenguinProvider({ children }) {
       return;
     }
     async function retrieve() {
+      setIsLoading(true);
       if (publicKey) {
         const myNfts = await getNFTsForWallet(
           connection,
@@ -31,6 +33,7 @@ export default function PenguinProvider({ children }) {
         );
         setNfts(myNfts);
       }
+      setIsLoading(false);
     }
     retrieve();
   }, [connection, publicKey]);

@@ -9,7 +9,13 @@ import {
   VOTE_PROGRAM_ADDRESS,
   NFT_CREATOR_ADDRESS,
 } from '../lib/constants.js';
-import { votesState, proposalsState, nftsState, voteDataState } from '../lib/state.js';
+import {
+  votesState,
+  proposalsState,
+  nftsState,
+  needsRefreshState,
+  voteDataState,
+} from '../lib/state.js';
 import { getMetadataForMint } from '../lib/NFTs.js';
 
 // Keep proposal data in public/proposals/
@@ -17,7 +23,7 @@ const VALID_PROPOSALS = [
   0, // public/proposals/0.json
 ];
 
-const REFRESH_INTERVAL = 1000 * 60; // Every 60 seconds
+const REFRESH_INTERVAL = 1000 * 60 * 2; // Every 2 minutes
 
 const VoteProgramAddressPubKey = new PublicKey(VOTE_PROGRAM_ADDRESS);
 
@@ -28,6 +34,7 @@ export default function VoteProvider({ children }) {
   const [proposals, setProposals] = useRecoilState(proposalsState);
   const [votes, setVotes] = useRecoilState(votesState);
   const [voteData, setVoteData] = useRecoilState(voteDataState);
+  const needsRefresh = useRecoilValue(needsRefreshState);
 
   const [refreshTimer, setRefreshTiemr] = useState(0);
 
@@ -100,7 +107,7 @@ export default function VoteProvider({ children }) {
       return;
     }
     retrieve();
-  }, [connection, refreshTimer]);
+  }, [connection, refreshTimer, needsRefresh]);
 
   useEffect(() => {
     const interval = setInterval(
