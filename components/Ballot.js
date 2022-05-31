@@ -78,7 +78,7 @@ export default function Ballot({ id, ballot, options, endDate }) {
         await castVote(batch, voteIdString, vote);
         toggleRefresh();
       }
-      toast.success('Voting complete! 🎉');
+      // toast.success('Voting complete! 🎉');
     },
     [tokenIds, castVote, toggleRefresh]
   );
