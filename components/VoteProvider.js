@@ -133,6 +133,7 @@ export default function VoteProvider({ children }) {
     retrieve();
   }, [votes, publicKey, setVoteData]);
 
+  /*
   // -- Debugging; feel free to remove
   useEffect(() => {
     console.log(`Have ${proposals.length} proposals:`, proposals);
@@ -147,6 +148,7 @@ export default function VoteProvider({ children }) {
   useEffect(() => {
     console.log(`Have ${voteData.length} ballots:`, voteData);
   }, [voteData]);
+  */
 
   return children;
 }
