@@ -3,9 +3,6 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { getPubkeyShorthand } from '../lib/blockchain.js';
 
-import '@solana/wallet-adapter-react-ui/styles.css';
-require('@solana/wallet-adapter-react-ui/styles.css');
-
 export default function Toolbar() {
   const { publicKey } = useWallet();
 
@@ -21,7 +18,7 @@ export default function Toolbar() {
   return (
     <div className="flex py-2 px-4 w-full justify-between items-center">
       <p className="pt-3 font-lucky text-3xl md:text-5xl">Pesky Vote</p>
-      <div>
+      <div className="bg-blue-800">
         {publicKey ? (
           <WalletDisconnectButton>
             <div className="flex flex-col leading-snug">
