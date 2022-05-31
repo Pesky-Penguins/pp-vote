@@ -16,8 +16,6 @@ export default function ResultsProgress({ className, proposalId, votes, results,
     [results, proposalId, options]
   );
 
-  console.log('proposalId', proposalId, 'counts', counts, 'results', results, 'options', options);
-
   return (
     <div className={className}>
       <div className="flex flex-col w-full">
