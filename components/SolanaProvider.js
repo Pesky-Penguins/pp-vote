@@ -10,8 +10,9 @@ import {
   SolletWalletAdapter,
   TorusWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
-import { solNetwork as network, getNetworkUri } from '../lib/config';
+import config, { getNetworkUri } from '../lib/config';
 
+const { solNetwork: network } = config;
 const connectionConfig = {
   commitment: 'confirmed',
 };
