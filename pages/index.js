@@ -30,6 +30,30 @@ export default function Home() {
           <Proposal key={p.id} id={p.id} info={p.info} />
         ))}
       </div>
+      <div className="my-2 p-2 max-w-screen-md">
+        <div className="card md:card-side bg-base-200 shadow-xl p-0 md:px-4">
+          <figure>
+            <Image src="/nfp.png" alt="NFP" width={300} height={300} />
+          </figure>
+          <div className="card-body">
+            <h2 className="card-title">A note about fees</h2>
+            <p>
+              Every Penguin who votes becomes a{' '}
+              <span className="font-semibold">registered voter</span>.
+            </p>
+            <p>
+              The first time you vote, data account(s) will be created on the blockchain, one for
+              each Penguin. This <b>one-time</b> data storage fee will cost approx.{' '}
+              <span className="font-mono">0.0017</span> <span className="font-mono">SOL</span>{' '}
+              <u>per Penguin</u>.
+            </p>
+            <p>
+              Subsequent votes will be registered in the Penguin's existing data account; all future
+              votes will cost only tx fees.
+            </p>
+          </div>
+        </div>
+      </div>
       <Footer />
     </div>
   );
