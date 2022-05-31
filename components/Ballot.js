@@ -212,7 +212,7 @@ export default function Ballot({ id, ballot, options, endDate }) {
       setVotingActionInProgress(false);
       // setSelectedNFTMintAddress([]);
       if (errorMessage !== '') {
-        toast.error('Failed to record vote. Please try again.');
+        toast.error(errorMessage);
       } else {
         toast.success('Congratulations! Your vote was recorded.');
       }
