@@ -36,7 +36,7 @@ export default function PenguinProvider({ children }) {
       setIsLoading(false);
     }
     retrieve();
-  }, [connection, publicKey]);
+  }, [connection, publicKey, setIsLoading, setNfts]);
 
   return children;
 }

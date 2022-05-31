@@ -10,8 +10,9 @@ export default function StackedProgress({ className, options, counts }) {
             results[results.length - 1].classes
           }`}
         >
-          {results.slice(0, -1).map((r) => (
+          {results.slice(0, -1).map((r, index) => (
             <div
+              key={`${index}-${r.count}`}
               style={{ width: `${(r.count / total) * 100}%` }}
               className={`shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center ${r.classes}`}
             />

@@ -81,7 +81,7 @@ export default function Ballot({ id, ballot, options, endDate }) {
       }
       toast.success('Voting complete! 🎉');
     },
-    [tokenIds]
+    [tokenIds, castVote, toggleRefresh]
   );
 
   const castVote = useCallback(
@@ -218,7 +218,7 @@ export default function Ballot({ id, ballot, options, endDate }) {
         toast.success('Congratulations! Your vote was recorded.');
       }
     },
-    [connection, publicKey]
+    [connection, publicKey, sendTransaction, signAllTransactions]
   );
 
   return (

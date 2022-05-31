@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 
 export default function PersonalVoteStats({ className, id, myVotes, remainingVotes }) {
-  const inFavor = useMemo(() => myVotes[id][1] || [], [myVotes]);
-  const opposed = useMemo(() => myVotes[id][0] || [], [myVotes]);
+  const inFavor = useMemo(() => myVotes[id][1] || [], [myVotes, id]);
+  const opposed = useMemo(() => myVotes[id][0] || [], [myVotes, id]);
   const totalVotes = useMemo(() => inFavor.length + opposed.length, [inFavor, opposed]);
 
   return (

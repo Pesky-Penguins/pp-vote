@@ -16,7 +16,12 @@ export default function Home() {
       <Toolbar className="relative" />
       <div className="flex flex-col max-w-screen-md px-4 md:px-2 lg:px-0 pt-8 w-full">
         <div className="flex relative items-center justify-center w-full h-32 xs:h-40 sm:h-56">
-          <Image src="/pesky-opensea-banner.png" layout="fill" objectFit="contain" />
+          <Image
+            src="/pesky-opensea-banner.png"
+            layout="fill"
+            objectFit="contain"
+            alt="Penguin Panorama"
+          />
         </div>
         <div className="h-8" />
         {(!proposals || !proposals.length) && (
@@ -48,8 +53,8 @@ export default function Home() {
               <u>per Penguin</u>.
             </p>
             <p>
-              Subsequent votes will be registered in the Penguin's existing data account; all future
-              votes will cost only tx fees.
+              Subsequent votes will be registered in the Penguin&apos;s existing data account; all
+              future votes will cost only tx fees.
             </p>
           </div>
         </div>

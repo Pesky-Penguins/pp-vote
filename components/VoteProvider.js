@@ -100,14 +100,14 @@ export default function VoteProvider({ children }) {
 
     setProposals(proposals);
     setVotes(voteData);
-  }, [connection]);
+  }, [connection, setProposals, setVotes]);
 
   useEffect(() => {
     if (!connection) {
       return;
     }
     retrieve();
-  }, [connection, refreshTimer, needsRefresh]);
+  }, [connection, refreshTimer, needsRefresh, retrieve]);
 
   useEffect(() => {
     const interval = setInterval(
@@ -131,7 +131,7 @@ export default function VoteProvider({ children }) {
       setVoteData(nftData);
     }
     retrieve();
-  }, [votes, publicKey]);
+  }, [votes, publicKey, setVoteData]);
 
   // -- Debugging; feel free to remove
   useEffect(() => {
