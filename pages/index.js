@@ -36,7 +36,7 @@ export default function Home() {
         ))}
       </div>
       <div className="my-2 p-2 max-w-screen-md">
-        <div className="card md:card-side bg-base-200 shadow-xl p-0 md:px-4">
+        <div className="card md:card-side bg-base-200 shadow-lg p-0 md:px-4">
           <figure>
             <Image src="/nfp.png" alt="NFP" width={300} height={300} />
           </figure>
@@ -53,7 +53,7 @@ export default function Home() {
               <u>per Penguin</u>.
             </p>
             <p>
-              Subsequent votes will be registered in the Penguin&apos;s existing data account; all
+              Subsequent votes will be registered in the Penguin&apos;s existing data account;
               future votes will cost only tx fees.
             </p>
           </div>

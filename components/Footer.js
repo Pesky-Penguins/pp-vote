@@ -9,9 +9,9 @@ const LINKS = {
 
 export default function Footer() {
   return (
-    <div className="flex flex-col w-full px-8 mb-4">
+    <div className="flex flex-col w-full px-8 mb-4 justify-center items-center">
       <div className="divider" />
-      <div className="flex justify-around">
+      <div className="flex justify-around max-w-screen-md w-full">
         {Object.entries(LINKS).map(([name, link]) => (
           <div key={link} className="cursor-pointer hover:text-blue-700">
             <Link href={link} target="_blank" rel="noreferrer">

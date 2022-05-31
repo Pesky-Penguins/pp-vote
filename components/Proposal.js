@@ -24,7 +24,7 @@ export default function Proposal({ id, info }) {
       <div className="flex w-full items-center justify-center text-center my-4">
         <Ballot id={id} ballot={ballot} options={options} endDate={endDate} />
       </div>
-      <div>
+      <div className="my-4">
         {description.map((d) => (
           <p className="py-2" key={d.slice(5, 10)}>
             {d}
