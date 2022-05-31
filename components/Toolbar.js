@@ -3,6 +3,9 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { getPubkeyShorthand } from '../lib/blockchain.js';
 
+import '@solana/wallet-adapter-react-ui/styles.css';
+require('@solana/wallet-adapter-react-ui/styles.css');
+
 export default function Toolbar() {
   const { publicKey } = useWallet();
 
