@@ -29,7 +29,6 @@ import {
   VOTE_PROGRAM_ADDRESS,
   NFT_CREATOR_ADDRESS,
 } from '../lib/constants.js';
-import { getNFTsForWallet } from '../lib/NFTs.js';
 
 import LoadingSpinner from './LoadingSpinner.js';
 import PersonalVoteStats from './PersonalVoteStats.js';
