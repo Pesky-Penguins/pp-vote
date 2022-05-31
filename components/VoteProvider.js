@@ -128,7 +128,8 @@ export default function VoteProvider({ children }) {
           return { mint: vote.mint, data, vote };
         })
       );
-      setVoteData(nftData);
+      const filteredData = nftData.filter((voteData) => voteData.mint === publicKey.toBase58());
+      setVoteData(filteredData);
     }
     retrieve();
   }, [votes, publicKey, setVoteData]);
