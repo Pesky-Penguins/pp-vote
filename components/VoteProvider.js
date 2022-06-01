@@ -34,6 +34,7 @@ export default function VoteProvider({ children }) {
   const [proposals, setProposals] = useRecoilState(proposalsState);
   const [votes, setVotes] = useRecoilState(votesState);
   const [voteData, setVoteData] = useRecoilState(voteDataState);
+  const nfts = useRecoilValue(nftsState);
   const needsRefresh = useRecoilValue(needsRefreshState);
 
   const [refreshTimer, setRefreshTiemr] = useState(0);
@@ -128,11 +129,12 @@ export default function VoteProvider({ children }) {
           return { mint: vote.mint, data, vote };
         })
       );
-      const filteredData = nftData.filter((voteData) => voteData.mint === publicKey.toBase58());
+      const myTokens = nfts.map((n) => n.tokenId);
+      const filteredData = nftData.filter((voteData) => myTokens.includes(voteData.mint));
       setVoteData(filteredData);
     }
     retrieve();
-  }, [votes, publicKey, setVoteData]);
+  }, [votes, nfts, setVoteData]);
 
   /*
   // -- Debugging; feel free to remove
