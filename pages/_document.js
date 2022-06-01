@@ -2,7 +2,7 @@
 
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
-const description = 'On-chain voting for the Pesky Penguins NFT Project and NootDAO';
+const description = 'On-chain voting for the Pesky Penguins collection and NootDAO';
 
 class MyDocument extends Document {
   render() {
@@ -25,11 +25,11 @@ class MyDocument extends Document {
 
           {/* Metadata */}
           <meta name="description" content={description}></meta>
-          <meta name="twitter:title" content="Pesky Penguins" />
+          <meta name="twitter:title" content="PeskyVote" />
           <meta name="twitter:description" content={description} />
           <meta name="twitter:site" content="https://twitter.com/peskypenguins" />
           <meta name="twitter:image" content="https://pesky-penguins.com/logonoot.png" />
-          <meta property="og:title" content="Pesky Vote" />
+          <meta property="og:title" content="PeskyVote" />
           <meta property="og:description" content={description} />
           <meta property="og:type" content="website" />
           <meta property="og:url" content="https://vote.pesky-penguins.com" />

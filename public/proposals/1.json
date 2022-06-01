@@ -12,5 +12,5 @@
     { "text": "Abstain", "classes": "btn-active btn-primary bg-primary" },
     { "text": "Yes", "classes": "btn-success bg-success" }
   ],
-  "active": false
+  "active": true
 }
