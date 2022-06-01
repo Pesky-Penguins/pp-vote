@@ -21,6 +21,7 @@ export default function Home() {
             layout="fill"
             objectFit="contain"
             alt="Penguin Panorama"
+            priority
           />
         </div>
         <div className="h-8" />
