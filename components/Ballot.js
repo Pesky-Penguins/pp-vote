@@ -32,7 +32,7 @@ import {
 
 import LoadingSpinner from './LoadingSpinner.js';
 import PersonalVoteStats from './PersonalVoteStats.js';
-import ResultsProgress, { ALIVE_PENGUINS } from './ResultsProgress.js';
+import ResultsProgress from './ResultsProgress.js';
 
 const BATCH_SIZE = 15;
 
@@ -224,11 +224,6 @@ export default function Ballot({ id, ballot, options, endDate }) {
     <div className="card w-full bg-neutral text-neutral-content">
       <div className="card-body items-center text-center p-4 md:p-6">
         <h2 className="card-title font-semibold text-2xl">{ballot}</h2>
-        <p className="mt-4 text-xl font-light">
-          <span className="font-mono">{votes.length}</span> <span className="">Votes</span> (
-          <span className="font-mono">{((votes.length / ALIVE_PENGUINS) * 100).toFixed(1)}</span>%
-          of Penguins)
-        </p>
         <ResultsProgress
           className="flex flex-col items-center w-full my-4 mb-2"
           proposalId={id}

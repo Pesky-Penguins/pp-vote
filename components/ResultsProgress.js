@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import StackedProgress from './StackedProgress.js';
 
-export const ALIVE_PENGUINS = 8447; // TODO move back to BAllot
+export const ALIVE_PENGUINS = 8447;
 
 export default function ResultsProgress({ className, proposalId, votes, results, options }) {
   const counts = useMemo(
@@ -16,9 +16,16 @@ export default function ResultsProgress({ className, proposalId, votes, results,
     [results, proposalId, options]
   );
 
+  const totalVotes = useMemo(() => counts.reduce((acc, c) => acc + c), [counts]);
+
   return (
     <div className={className}>
       <div className="flex flex-col w-full">
+        <p className="mb-4 text-xl font-light">
+          <span className="font-mono">{totalVotes}</span> <span className="">Votes</span> (
+          <span className="font-mono">{((totalVotes / ALIVE_PENGUINS) * 100).toFixed(1)}</span>% of
+          Penguins)
+        </p>
         <StackedProgress className="" options={options} counts={counts} />
         <div className="flex justify-between w-full text-lg">
           {options.map((o, i) => (
