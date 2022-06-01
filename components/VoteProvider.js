@@ -20,7 +20,7 @@ import { getMetadataForMint } from '../lib/NFTs.js';
 
 // Keep proposal data in public/proposals/
 const VALID_PROPOSALS = [
-  0, // public/proposals/0.json
+  1, // public/proposals/1.json
 ];
 
 const REFRESH_INTERVAL = 1000 * 60 * 2; // Every 2 minutes
