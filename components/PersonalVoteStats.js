@@ -1,22 +1,26 @@
 import { useMemo } from 'react';
+import { useRecoilValue } from 'recoil';
+import { nftsState } from '../lib/state.js';
 
 export default function PersonalVoteStats({ className, id, myVotes, remainingVotes }) {
-  const inFavor = useMemo(() => myVotes[id][1] || [], [myVotes, id]);
-  const opposed = useMemo(() => myVotes[id][0] || [], [myVotes, id]);
-  const totalVotes = useMemo(() => inFavor.length + opposed.length, [inFavor, opposed]);
+  const nfts = useRecoilValue(nftsState);
+  const votesCast = useMemo(
+    () => (nfts?.length || 0) - (remainingVotes[id]?.length || 0),
+    [nfts, remainingVotes]
+  );
 
   return (
     <div className={className}>
       <div className="flex flex-col w-full font-light">
         {remainingVotes[id]?.length > 0 && (
           <p className="text-lg">
-            You have <span className="font-mono">{remainingVotes[id].length}</span> eligible
-            Penguins.
+            Voting will cast <span className="font-mono">{remainingVotes[id].length}</span> ballots:
+            one for each eligible Penguin in this wallet.
           </p>
         )}
-        {(inFavor.length > 0 || opposed.length > 0) && (
+        {(remainingVotes[id]?.length || 0) < (nfts?.length || 0) && (
           <p className="text-lg">
-            <span className="font-mono">{totalVotes}</span> of your Penguins have{' '}
+            <span className="font-mono">{votesCast}</span> of your Penguins have{' '}
             <span className="font-bold">already voted.</span>
           </p>
         )}

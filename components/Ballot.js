@@ -249,12 +249,12 @@ export default function Ballot({ id, ballot, options, endDate }) {
                 );
               })}
             </div>
-            <div className="my-4 mt-6">
-              <p className="font-light text-lg">
-                Voting will cast a ballot for <u>every Penguin</u> in this wallet.
-              </p>
-            </div>
-            <PersonalVoteStats id={id} myVotes={myVotes} remainingVotes={remainingVotes} />
+            <PersonalVoteStats
+              className="mt-4"
+              id={id}
+              myVotes={myVotes}
+              remainingVotes={remainingVotes}
+            />
           </div>
         )}
         {isLoadingNfts && !hasExpired && (
