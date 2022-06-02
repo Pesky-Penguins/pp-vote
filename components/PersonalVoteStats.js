@@ -20,8 +20,8 @@ export default function PersonalVoteStats({ className, id, myVotes, remainingVot
         )}
         {(remainingVotes[id]?.length || 0) < (nfts?.length || 0) && (
           <p className="text-lg">
-            <span className="font-mono">{votesCast}</span> of your Penguins have{' '}
-            <span className="font-bold">already voted.</span>
+            <span className="font-mono">{votesCast}</span> of your Penguins{' '}
+            {votesCast === 1 ? 'has' : 'have'} <span className="font-bold">already voted.</span>
           </p>
         )}
       </div>
