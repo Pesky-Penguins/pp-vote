@@ -16,7 +16,6 @@ import {
   needsRefreshState,
   voteDataState,
 } from '../lib/state.js';
-import { getMetadataForMint } from '../lib/NFTs.js';
 
 // Keep proposal data in public/proposals/
 const VALID_PROPOSALS = [
@@ -39,7 +38,7 @@ export default function VoteProvider({ children }) {
 
   const [refreshTimer, setRefreshTiemr] = useState(0);
 
-  const retrieve = useCallback(async () => {
+  const retrieveNfts = useCallback(async () => {
     const programAccounts = await connection.getProgramAccounts(VoteProgramAddressPubKey, {
       filters: [
         { memcmp: { bytes: NFT_CREATOR_ADDRESS, offset: 116 } },
@@ -107,8 +106,8 @@ export default function VoteProvider({ children }) {
     if (!connection) {
       return;
     }
-    retrieve();
-  }, [connection, refreshTimer, needsRefresh, retrieve]);
+    retrieveNfts();
+  }, [connection, refreshTimer, needsRefresh, retrieveNfts]);
 
   useEffect(() => {
     const interval = setInterval(
@@ -119,39 +118,17 @@ export default function VoteProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    if (!(votes && votes.length > 0 && publicKey)) {
+    if (!(votes && votes.length > 0)) {
       return;
     }
-    async function retrieve() {
-      const nftData = await Promise.all(
-        votes.map(async (vote) => {
-          const data = await getMetadataForMint(vote.mint);
-          return { mint: vote.mint, data, vote };
-        })
-      );
+    async function retrieveVoteData() {
+      const nftData = await Promise.all(votes.map(async (vote) => ({ mint: vote.mint, vote })));
       const myTokens = nfts.map((n) => n.tokenId);
       const filteredData = nftData.filter((voteData) => myTokens.includes(voteData.mint));
       setVoteData(filteredData);
     }
-    retrieve();
+    retrieveVoteData();
   }, [votes, nfts, setVoteData]);
-
-  /*
-  // -- Debugging; feel free to remove
-  useEffect(() => {
-    console.log(`Have ${proposals.length} proposals:`, proposals);
-  }, [proposals]);
-
-  // -- Debugging; feel free to remove
-  useEffect(() => {
-    console.log(`Have ${votes.length} votes:`, votes);
-  }, [votes]);
-
-  // -- Debugging; feel free to remove
-  useEffect(() => {
-    console.log(`Have ${voteData.length} ballots:`, voteData);
-  }, [voteData]);
-  */
 
   return children;
 }

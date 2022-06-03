@@ -6,7 +6,7 @@ export default function PersonalVoteStats({ className, id, myVotes, remainingVot
   const nfts = useRecoilValue(nftsState);
   const votesCast = useMemo(
     () => (nfts?.length || 0) - (remainingVotes[id]?.length || 0),
-    [nfts, remainingVotes]
+    [nfts, remainingVotes, id]
   );
 
   return (
