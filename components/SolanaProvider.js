@@ -10,11 +10,10 @@ import {
   SolletWalletAdapter,
   TorusWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
-import config, { getNetworkUri } from '../lib/config';
+import { solNetwork as network, getRandomNode } from '../lib/config';
 
-const { solNetwork: network } = config;
 const connectionConfig = {
-  commitment: 'confirmed',
+  commitment: 'processed',
 };
 
 export default function SolanaProvider({ children }) {
@@ -22,17 +21,16 @@ export default function SolanaProvider({ children }) {
   // Only the wallets you configure here will be compiled into your application
   const wallets = useMemo(
     () => [
-      new PhantomWalletAdapter(),
       new GlowWalletAdapter(),
+      new PhantomWalletAdapter(),
       new SlopeWalletAdapter(),
       new SolflareWalletAdapter({ network }),
       new SolletWalletAdapter({ network }),
-      new TorusWalletAdapter(),
     ],
     []
   );
 
-  const networkUri = useMemo(() => getNetworkUri(), []);
+  const networkUri = useMemo(() => getRandomNode(), []);
 
   return (
     <ConnectionProvider endpoint={networkUri} config={connectionConfig}>
