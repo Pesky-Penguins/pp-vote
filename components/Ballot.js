@@ -65,24 +65,6 @@ export default function Ballot({ id, ballot, options, endDate }) {
     setNeedsRefresh((old) => old + 1);
   }, [setNeedsRefresh]);
 
-  const castBatchedVotes = useCallback(
-    async (voteIdString, vote) => {
-      if (tokenIds <= BATCH_SIZE) {
-        return castVote(tokenIds, voteIdString, vote);
-      }
-
-      const batches = chunk(tokenIds, BATCH_SIZE);
-      for (let i = 0; i < batches.length; i++) {
-        const batch = batches[i];
-        toast.info(`Submitting tx ${i + 1} of ${batches.length}`);
-        await castVote(batch, voteIdString, vote);
-        toggleRefresh();
-      }
-      // toast.success('Voting complete! 🎉');
-    },
-    [tokenIds, castVote, toggleRefresh]
-  );
-
   const castVote = useCallback(
     async (tokens, voteIdString, vote) => {
       if (!publicKey) {
@@ -218,6 +200,24 @@ export default function Ballot({ id, ballot, options, endDate }) {
       }
     },
     [connection, publicKey, sendTransaction, signAllTransactions]
+  );
+
+  const castBatchedVotes = useCallback(
+    async (voteIdString, vote) => {
+      if (tokenIds <= BATCH_SIZE) {
+        return castVote(tokenIds, voteIdString, vote);
+      }
+
+      const batches = chunk(tokenIds, BATCH_SIZE);
+      for (let i = 0; i < batches.length; i++) {
+        const batch = batches[i];
+        toast.info(`Submitting tx ${i + 1} of ${batches.length}`);
+        await castVote(batch, voteIdString, vote);
+        toggleRefresh();
+      }
+      // toast.success('Voting complete! 🎉');
+    },
+    [tokenIds, castVote, toggleRefresh]
   );
 
   return (
