@@ -13,13 +13,22 @@ To run on devnet, simply
 npm start
 ```
 
+Open [http://localhost:3000](http://localhost:3000) with your browser, and you'll be online!
+
+## ENVVARS
 If you want to run on mainnet, you must set the `NEXT_PUBLIC_SOL_NETWORK` environment variable, like so:
 
 ```bash
 NEXT_PUBLIC_SOL_NETWORK=mainnet-beta npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser, and you'll be online!
+Next, you must define a list of one or more RPC nodes to use, and encode them as a JSON array in the `NEXT_PUBLIC_RPC_NODES` envvar, like so:
+
+```bash
+NEXT_PUBLIC_RPC_NODES='["https://my-node-1.quicknode.com", "https://my-node-2.genesysgo.com"]'
+```
+
+Users will be randomly assigned a node on each visit, which can help overcome rate limits during bouts of high traffic.
 
 ## Creating Proposals
 This application uses a slightly modified version of [solana-daovote](https://github.com/Flawm/solana-daovote).
