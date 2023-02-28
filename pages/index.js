@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center">
       <Toolbar className="relative" />
-      <div className="flex flex-col max-w-screen-md px-4 md:px-2 lg:px-0 pt-8 w-full">
+      <div className="flex flex-col max-w-screen-md px-4 md:px-2 lg:px-0 pt-8 w-full space-y-8">
         <div className="flex relative items-center justify-center w-full h-32 xs:h-40 sm:h-56">
           <Image
             src="/pesky-opensea-banner.png"
@@ -24,7 +24,6 @@ export default function Home() {
             priority
           />
         </div>
-        <div className="h-8" />
         {(!proposals || !proposals.length) && (
           <div className="flex w-full items-center justify-center">
             <h2 className="text-3xl font-bold">Loading proposals...</h2>
@@ -66,6 +65,8 @@ export default function Home() {
         </div>
       </div>
       <Footer />
+      {/* This hidden tag forces tailwind to inject styles we need */}
+      <div className="hidden btn-primary btn-secondary decoration-error decoration-red-500 decoration-primary decoration-active decoration-secondary decoration-success decoration-fail decoration-warn decoration-ghost" />
     </div>
   );
 }

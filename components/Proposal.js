@@ -1,10 +1,11 @@
 import { useEffect, useMemo } from 'react';
 
 import { useRecoilValue } from 'recoil';
-import { votesState, voteDataState } from '../lib/state.js';
+import { votesState, voteDataState } from '@/lib/state.js';
 
-import Ballot from './Ballot.js';
-import CountdownTimer from './CountdownTimer.js';
+import Ballot from '@/components/Ballot.js';
+import CountdownTimer from '@/components/CountdownTimer.js';
+import Markdown from '@/components/Markdown';
 
 export default function Proposal({ id, info }) {
   const votes = useRecoilValue(votesState);
@@ -24,11 +25,11 @@ export default function Proposal({ id, info }) {
       <div className="flex w-full items-center justify-center text-center my-4">
         <Ballot id={id} ballot={ballot} options={options} endDate={endDate} />
       </div>
-      <div className="my-4">
+      <div className="my-4 space-y-4">
         {description.map((d) => (
-          <p className="py-2" key={d.slice(5, 10)}>
+          <Markdown className="py-2" key={d.slice(5, 10)}>
             {d}
-          </p>
+          </Markdown>
         ))}
       </div>
     </div>

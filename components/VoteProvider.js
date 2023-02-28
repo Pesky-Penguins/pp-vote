@@ -8,18 +8,19 @@ import {
   METAPLEX_METADATA_PROGRAM_ADDRESS,
   VOTE_PROGRAM_ADDRESS,
   NFT_CREATOR_ADDRESS,
-} from '../lib/constants.js';
+} from '@/lib/constants.js';
 import {
   votesState,
   proposalsState,
   nftsState,
   needsRefreshState,
   voteDataState,
-} from '../lib/state.js';
+} from '@/lib/state.js';
 
 // Keep proposal data in public/proposals/
 const VALID_PROPOSALS = [
   1, // public/proposals/1.json
+  2, // public/proposals/2.json
 ];
 
 const REFRESH_INTERVAL = 1000 * 60 * 2; // Every 2 minutes
@@ -69,9 +70,11 @@ export default function VoteProvider({ children }) {
       };
     });
 
-    const proposals = (await Promise.all(proposalsRetrieval)).filter((proposal) => {
-      return !!proposal.info;
-    });
+    const proposals = (await Promise.all(proposalsRetrieval))
+      .filter((proposal) => {
+        return !!proposal.info;
+      })
+      .sort(({ id: idA }, { id: idB }) => idB - idA);
 
     const voteAccounts = await connection.getProgramAccounts(VoteProgramAddressPubKey, {
       filters: [{ memcmp: { bytes: NFT_CREATOR_ADDRESS, offset: 32 } }, { dataSize: 116 }],

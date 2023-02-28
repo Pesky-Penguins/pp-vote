@@ -2,3 +2,8 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+.markdown > p > a {
+  @apply text-blue-600;
+  @apply hover:underline;
+}

@@ -28,17 +28,26 @@ export default function ResultsProgress({ className, proposalId, votes, results,
         </p>
         <StackedProgress className="" options={options} counts={counts} />
         <div className="flex justify-between w-full text-lg">
-          {options.map((o, i) => (
-            <div key={o.text} className="flex flex-col items-center justify-center text-center">
-              <p className="">{o.text}</p>
-              <p className="hidden md:flex font-mono w-full text-center">
-                {counts[i]} ({((counts[i] / totalVotes) * 100).toFixed(1)}%)
-              </p>
-              <p className="flex md:hidden font-mono w-full text-center">
-                {((counts[i] / totalVotes) * 100).toFixed(1)}%
-              </p>
-            </div>
-          ))}
+          {options.map((o, i) => {
+            const decorate = o.text !== 'Abstain';
+            return (
+              <div key={o.text} className="flex flex-col items-center justify-center text-center">
+                <p
+                  className={`decoration-${o.classes.split(' ')[0]} ${
+                    decorate ? ' underline decoration-double' : ''
+                  }`}
+                >
+                  {o.text}
+                </p>
+                <p className="hidden md:flex font-mono w-full text-center">
+                  {counts[i]} ({((counts[i] / totalVotes) * 100).toFixed(1)}%)
+                </p>
+                <p className="flex md:hidden font-mono w-full text-center">
+                  {((counts[i] / totalVotes) * 100).toFixed(1)}%
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -8,9 +8,9 @@
     "The dev team proposes increasing Pesky Penguins royalties from 5% to 6%, directing 1% of every aftermarket sale to NootDAO's multi-sig wallet, where these funds will be used to ensure the ongoing health of the community and success of the project."
   ],
   "options": [
-    { "text": "No", "classes": "btn-error bg-error" },
+    { "text": "No", "classes": "red-500 btn-error bg-error" },
     { "text": "Abstain", "classes": "btn-active btn-primary bg-primary" },
-    { "text": "Yes", "classes": "btn-success bg-success" }
+    { "text": "Yes", "classes": "success btn-success bg-success" }
   ],
-  "active": true
+  "active": false
 }
