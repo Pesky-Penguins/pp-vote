@@ -168,6 +168,9 @@ export default function Ballot({ id, ballot, options, endDate }) {
           }
         } catch (err) {
           console.error(err);
+          if (err.message.includes('rejected')) {
+            throw err;
+          }
           errorMessage = err;
           setVotingActionInProgress(false);
         }
@@ -181,6 +184,9 @@ export default function Ballot({ id, ballot, options, endDate }) {
           } catch (e) {
             const logs = e?.logs;
             let error = 'Unknown error occurred.';
+            if (e.message.includes('rejected')) {
+              throw err;
+            }
             console.error(e);
             if (logs) {
               error = logs[logs.length - 3].split(' ').splice(2).join(' ');
@@ -212,7 +218,15 @@ export default function Ballot({ id, ballot, options, endDate }) {
       for (let i = 0; i < batches.length; i++) {
         const batch = batches[i];
         toast.info(`Submitting tx ${i + 1} of ${batches.length}`);
-        await castVote(batch, voteIdString, vote);
+        try {
+          await castVote(batch, voteIdString, vote);
+        } catch (err) {
+          if (err.message.includes('rejected')) {
+            toast.warn('Vote cancelled');
+            setVotingActionInProgress(false);
+            break;
+          }
+        }
         toggleRefresh();
       }
       // toast.success('Voting complete! 🎉');
