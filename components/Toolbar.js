@@ -1,7 +1,16 @@
+import dynamic from 'next/dynamic';
 import { useMemo } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { getPubkeyShorthand } from '../lib/blockchain.js';
+
+const WalletMultiButtonDynamic = dynamic(
+  async () => (await import('@solana/wallet-adapter-react-ui')).WalletMultiButton,
+  { ssr: false }
+);
+const WalletDisconnectButtonDynamic = dynamic(
+  async () => (await import('@solana/wallet-adapter-react-ui')).WalletDisconnectButton,
+  { ssr: false }
+);
 
 export default function Toolbar() {
   const { publicKey } = useWallet();
@@ -20,14 +29,14 @@ export default function Toolbar() {
       <p className="pt-3 font-lucky text-3xl md:text-5xl">Pesky Vote</p>
       <div className="bg-blue-800">
         {publicKey ? (
-          <WalletDisconnectButton>
+          <WalletDisconnectButtonDynamic>
             <div className="flex flex-col leading-snug">
               <p>Disconnect</p>
               <p className="text-sm font-mono">{pubkeyShorthand}</p>
             </div>
-          </WalletDisconnectButton>
+          </WalletDisconnectButtonDynamic>
         ) : (
-          <WalletMultiButton />
+          <WalletMultiButtonDynamic />
         )}
       </div>
     </div>
