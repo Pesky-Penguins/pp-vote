@@ -1,0 +1,16 @@
+{
+  "title": "Programmable NFTs",
+  "endDate": "2023-03-15T00:00:00Z",
+  "ballot": "Should Pesky Penguins migrate their NFTs to pNFTs?",
+  "description": [
+    "Metaplex is building a new asset class, [programmable NFTs](https://metaplex.notion.site/metaplex/Public-FAQ-A-new-asset-class-to-enforce-royalties-4662d26ee8af451faeb16d6a0534cb70), that allows for flexible configuration of various lifecycle rules, including certain transfer restrictions that can be used by creators to enforce royalties.",
+    "Migrating Pesky Penguins NFTs to pNFTs will restrict which applications can interact with your penguins. This allows for the enforcement of royalties, but may impose additional restrictions on how Pesky Penguins can be transferred and sold.",
+    "If Pesky Penguins holders vote to adopt pNFTs, the Pesky Penguins team intends to use the default allowlist supplied by Metaplex."
+  ],
+  "options": [
+    { "text": "Stay NFT", "classes": "primary btn-primary" },
+    { "text": "Abstain", "classes": "btn-active" },
+    { "text": "Go pNFT", "classes": "secondary btn-secondary" }
+  ],
+  "active": true
+}
